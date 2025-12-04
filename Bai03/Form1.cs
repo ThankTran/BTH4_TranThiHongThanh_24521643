@@ -18,7 +18,6 @@ namespace Bai03
             InitializeComponent();
             this.KeyPreview = true;
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             string today = DateTime.Now.ToString("dd/MM/yyyy");
@@ -55,8 +54,6 @@ namespace Bai03
 
             toolStripStatusLabel1.Text =
                 $"Hôm nay là ngày {today} - Bây giờ là {now}";
-        }
-
-        
+        }   
     }
 }

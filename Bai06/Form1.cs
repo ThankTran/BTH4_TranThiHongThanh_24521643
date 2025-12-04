@@ -17,12 +17,6 @@ namespace Bai06
         {
             InitializeComponent();
         }
-
-        private void progressBar1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnBrowseSource_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
@@ -58,7 +52,6 @@ namespace Bai06
                 return;
             }
 
-            // Nếu thư mục đích chưa có thì tạo
             if (!Directory.Exists(destPath))
             {
                 Directory.CreateDirectory(destPath);
@@ -66,7 +59,6 @@ namespace Bai06
 
             try
             {
-                // Lấy toàn bộ file trong thư mục nguồn (bao gồm thư mục con)
                 string[] files = Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories);
                 int totalFiles = files.Length;
 
@@ -85,19 +77,15 @@ namespace Bai06
 
                 foreach (string file in files)
                 {
-                    // Tính đường dẫn tương đối của file so với thư mục nguồn
                     string relativePath = file.Substring(sourcePath.Length).TrimStart('\\');
                     string destFile = Path.Combine(destPath, relativePath);
 
-                    // Đảm bảo thư mục con tại đích đã tồn tại
                     string destDir = Path.GetDirectoryName(destFile);
                     if (!Directory.Exists(destDir))
                         Directory.CreateDirectory(destDir);
 
-                    // Sao chép file (overwrite = true)
                     File.Copy(file, destFile, true);
 
-                    // Cập nhật ProgressBar và StatusStrip
                     copied++;
                     progressBar1.Value = copied;
 
@@ -105,7 +93,7 @@ namespace Bai06
                     lblStatus.Text = $"Đang sao chép: {file} ({copied}/{totalFiles})";
                     toolTip1.SetToolTip(progressBar1, $"Tiến độ: {percent}%");
 
-                    Application.DoEvents(); // cho UI kịp vẽ tiến trình
+                    Application.DoEvents(); 
                 }
 
                 lblStatus.Text = "Sao chép hoàn tất.";

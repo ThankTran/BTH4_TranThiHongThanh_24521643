@@ -66,7 +66,6 @@ namespace Bai04
             SaveDocument();
         }
 
-
         private void tsmFormat_Click(object sender, EventArgs e)
         {
             FontDialog fd = new FontDialog();
