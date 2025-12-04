@@ -101,5 +101,67 @@ namespace Bai05
 
             dt.DefaultView.RowFilter = $"TENSV LIKE '%{safeKeyword}%'";
         }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvSinhVien.CurrentRow == null || dgvSinhVien.CurrentRow.IsNewRow)
+            {
+                MessageBox.Show("Vui lòng chọn một sinh viên cần xóa.", "Thông báo",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            object cellValue = dgvSinhVien.CurrentRow.Cells["MaSV"].Value;
+            if (cellValue == null || string.IsNullOrWhiteSpace(cellValue.ToString()))
+            {
+                MessageBox.Show("Không lấy được mã sinh viên.", "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string maSV = cellValue.ToString();
+
+            DialogResult confirm = MessageBox.Show(
+                $"Bạn có chắc muốn xóa sinh viên có mã {maSV}?",
+                "Xác nhận xóa",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+                    string deleteSql = "DELETE FROM SINHVIEN WHERE MASV = @MASV";
+                    using (SqlCommand cmd = new SqlCommand(deleteSql, conn))
+                    {
+                        cmd.Parameters.Add("@MASV", SqlDbType.VarChar, 10).Value = maSV;
+                        int rows = cmd.ExecuteNonQuery();
+
+                        if (rows > 0)
+                        {
+                            MessageBox.Show("Xóa sinh viên thành công.", "Thông báo",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Không tìm thấy sinh viên cần xóa.", "Thông báo",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                }
+
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xóa sinh viên: " + ex.Message, "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }

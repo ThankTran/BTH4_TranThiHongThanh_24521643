@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Bai05
@@ -14,9 +9,14 @@ namespace Bai05
     public partial class Form2 : Form
     {
         private string connStr = @"Data Source=localhost;Initial Catalog=QLSV;User ID=User;Password=thanh;";
+
         public Form2()
         {
             InitializeComponent();
+        }
+        private bool IsValidName(string name)
+        {
+            return Regex.IsMatch(name, @"^[\p{L} ]+$");
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -36,6 +36,14 @@ namespace Bai05
                 return;
             }
 
+            if (!IsValidName(tenSV))
+            {
+                MessageBox.Show("Tên sinh viên chỉ được chứa chữ cái và khoảng trắng.\n" +
+                                "Không được chứa số hoặc ký tự đặc biệt.", "Sai định dạng tên",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (!double.TryParse(diemText, out double diemTB) ||
                 diemTB < 0 || diemTB > 10)
             {
@@ -49,7 +57,6 @@ namespace Bai05
                 using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-
                     string checkSql = "SELECT COUNT(*) FROM SINHVIEN WHERE MASV = @MASV";
                     using (SqlCommand checkCmd = new SqlCommand(checkSql, conn))
                     {
@@ -64,7 +71,7 @@ namespace Bai05
                     }
 
                     string insertSql = @"INSERT INTO SINHVIEN (MASV, TENSV, KHOA, DIEMTB)
-                     VALUES (@MASV, @TENSV, @KHOA, @DIEMTB)";
+                                         VALUES (@MASV, @TENSV, @KHOA, @DIEMTB)";
 
                     using (SqlCommand cmd = new SqlCommand(insertSql, conn))
                     {
@@ -75,7 +82,6 @@ namespace Bai05
 
                         cmd.ExecuteNonQuery();
                     }
-
                 }
 
                 MessageBox.Show("Thêm sinh viên thành công.", "Thông báo",
@@ -90,7 +96,6 @@ namespace Bai05
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btnExit_Click(object sender, EventArgs e)
         {
             this.Close();

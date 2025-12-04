@@ -47,6 +47,7 @@
             this.TENSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KHOA = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DIEMTB = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSinhVien)).BeginInit();
@@ -70,7 +71,8 @@
             this.chứcNăngToolStripMenuItem.BackColor = System.Drawing.Color.SeaShell;
             this.chứcNăngToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmAdd,
-            this.exitToolStripMenuItem});
+            this.exitToolStripMenuItem,
+            this.deleteToolStripMenuItem});
             this.chứcNăngToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chứcNăngToolStripMenuItem.Name = "chứcNăngToolStripMenuItem";
             this.chứcNăngToolStripMenuItem.Size = new System.Drawing.Size(110, 27);
@@ -206,6 +208,13 @@
             this.DIEMTB.MinimumWidth = 6;
             this.DIEMTB.Name = "DIEMTB";
             // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.deleteToolStripMenuItem.Text = "Xóa";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -250,6 +259,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TENSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn KHOA;
         private System.Windows.Forms.DataGridViewTextBoxColumn DIEMTB;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }
 
